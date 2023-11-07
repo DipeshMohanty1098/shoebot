@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1095225439242",
+    "project_id": "shoebot-cd8ad",
+    "storage_bucket": "shoebot-cd8ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095225439242:android:e7f92968252cc00f0e9bf3",
+        "android_client_info": {
+          "package_name": "com.example.shoebot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1095225439242-co4vkk3ra8bf5m0b89gm9iqnk6ka0dsg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shoebot",
+            "certificate_hash": "e7dc1f09fd18db2787158810a90446a9d90de51e"
+          }
+        },
+        {
+          "client_id": "1095225439242-huads2rmqknikb59tg766rhc2flb6kjo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMDM6IZN0hXfo1S4ZJvg_Fh6Dakcs_lyE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1095225439242-huads2rmqknikb59tg766rhc2flb6kjo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
