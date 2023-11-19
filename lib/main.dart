@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:shoebot/screens/auth/loginWithEmail.dart';
+import 'package:shoebot/screens/auth/registerWithEmail.dart';
 import 'package:shoebot/screens/wrapper.dart';
 import 'package:shoebot/services/auth.dart';
 import 'firebase_options.dart';

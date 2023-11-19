@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shoebot/screens/auth/loginWithEmail.dart';
+import 'package:shoebot/screens/auth/registerWithEmail.dart';
 import 'package:shoebot/screens/shared/loading.dart';
 import 'package:shoebot/services/auth.dart';
 
@@ -12,6 +14,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool loading = false;
+  bool register = false;
   void click() {
     context.read<AuthService>().signInWithGoogle();
   }
@@ -24,24 +27,23 @@ class _LoginState extends State<Login> {
         ? const Loading()
         : Scaffold(
           backgroundColor: Colors.black,
-            body: const Column(
+            body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 20),
-                Center(
+                const SizedBox(height: 20),
+                const Center(
                   child: Text("S H O E B O T",
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white)),
                 ),
-              ],
-            ),
-            floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        height: 50,
-        margin: const EdgeInsets.all(10),
-        child: ElevatedButton(
+                register ?  const Expanded(child: LoginWithEmail()) : const Expanded(child: RegisterWithEmail()) ,
+                register ?  const Text('Dont have an account? Sign up') : const Text('Already have an account? Sign in', style: TextStyle(color: Colors.white)),
+                ElevatedButton(onPressed: () =>  setState(() {
+                  register = !register;
+                }), child: register ? const Text('Register') : const Text('Login'),),
+                Container( 
+                  margin: const EdgeInsets.all(50),
+                  child: ElevatedButton(
           onPressed: () {
             click();
               setState(() {
@@ -51,8 +53,9 @@ class _LoginState extends State<Login> {
           child: const Center(
             child: Text('Login or Sign Up with Google'),
           ),
-        ),
-      ),
+        )),
+              ],
+            ),
           );
   }
 }
