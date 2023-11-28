@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,11 +17,17 @@ class _LoginWithEmailState extends State<LoginWithEmail> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  String error = '';
 
   void _signIn() async{
     String email = _emailController.text;
     String password = _password.text;
-    context.read<AuthService>().signInwithEmailAndPassword(email, password);
+    User? user = await context.read<AuthService>().signInwithEmailAndPassword(email, password);
+    if (user == null) {
+      setState(() {
+        error = 'Something went wrong while trying to login. Please try again.';
+      });
+    }
   }
 
 
@@ -55,6 +62,7 @@ class _LoginWithEmailState extends State<LoginWithEmail> {
               filled: true),
             ),
             const SizedBox(height: 32.0),
+            Text(error, style: const TextStyle(color: Colors.red),),
             ElevatedButton(
               onPressed: () {
                 _signIn();

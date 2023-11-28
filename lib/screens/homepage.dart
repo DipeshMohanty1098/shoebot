@@ -4,6 +4,7 @@ import 'package:shoebot/screens/chatbotscreen.dart';
 import 'package:shoebot/services/auth.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 
 
@@ -56,113 +57,106 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      appBar: AppBar(
-       title: const Text("Search for your shoe"), centerTitle: true,
-       actions: [IconButton(onPressed: signOut, icon: const Icon(Icons.power_settings_new))],
-     ),
-      body: Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            child: const Text(
-              "S H O E B O T",
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Container(
-              padding: const EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 10.0),
-            child: const Text(
-              "Find your perfect pair",
-              style: TextStyle(fontSize: 18),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 40.0),
-            child: Center(
-              child: Image.asset('assets/c2.PNG'), // Use the asset path here
-            ),
-          ),
-          Text(
-            _text,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child:Row(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(1, 76, 1, 6),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Expanded(
-                child: TextField(
-                  decoration: const InputDecoration(
-                    labelText: "Ask me what you're looking for today!",
-                    fillColor: Colors.yellow,
-                    filled: true,
-              
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      _text = value;
-                    });
-                  },
+              TypewriterAnimatedTextKit(
+                speed: Duration(milliseconds: 190),
+                text: ["S H O E B O T"],
+                textStyle: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Find your perfect pair",
+                style: TextStyle(fontSize: 18),
+              ),
+              SizedBox(height: 40),
+              Image.asset('assets/c2.PNG', height: 150), // Adjust the height as needed
+              SizedBox(height: 20),
+              Text(
+                _text,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.yellow,
+                          labelText: "Ask me what you're looking for today!",
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _text = value;
+                          });
+                        },
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.send),
+                      color: Colors.yellow,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatBotScreen(_text),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
-              IconButton(
-                color: Colors.yellow,
-                icon: const Icon(Icons.send),
-                onPressed: () {
-                  Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ChatBotScreen(_text),
-                  ),
-                  );
-                },
-              ),
             ],
+          ),
+        ),
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AvatarGlow(
+            animate: _isListening,
+            glowColor: Colors.yellow,
+            endRadius: 75.0,
+            duration: const Duration(milliseconds: 2000),
+            repeatPauseDuration: const Duration(milliseconds: 100),
+            repeat: true,
+            child: FloatingActionButton(
+              onPressed: () {
+                if (_isListening) {
+                  _speech.stop();
+                } else {
+                  _speech.listen(
+                    onResult: (result) {
+                      setState(() {
+                        _text = result.recognizedWords;
+                      });
+                    },
+                  );
+                }
+                setState(() {
+                  _isListening = !_isListening;
+                });
+              },
+              backgroundColor: Colors.yellow,
+              child: Icon(
+                _isListening ? Icons.mic_none : Icons.mic,
+                color: Colors.black,
+              ),
             ),
           ),
-        ],
-      ),
-      ),
-      floatingActionButton:Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-        AvatarGlow(
-        animate: _isListening,
-        glowColor: Colors.yellow,
-        endRadius: 75.0,
-        duration: const Duration(milliseconds: 2000),
-        repeatPauseDuration: const Duration(milliseconds: 100),
-        repeat: true,
-        child: FloatingActionButton(
-            onPressed: () {
-              if (_isListening) {
-                _speech.stop();
-              } else {
-                _speech.listen(
-                  onResult: (result) {
-                    setState(() {
-                      _text = result.recognizedWords;
-                    });
-                  },
-                );
-              }
-              setState(() {
-                _isListening = !_isListening;
-              });
-            },
-            backgroundColor: Colors.yellow,
-            child: Icon(_isListening ? Icons.mic_none : Icons.mic,color: Colors.black),
-          ),
-          ),
-          const SizedBox(width: 16), // Add space between the button and text field
+          SizedBox(width: 16), // Add space between the button and text field
         ],
       ),
     );
   }
-
 
   
 }

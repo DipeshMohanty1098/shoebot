@@ -20,14 +20,32 @@ class AddToCartScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(10.0),
               child: ElevatedButton(
-              onPressed: () {
-                // Add your logic to proceed with the purchase
-                Navigator.push(context,
+                onPressed: () {
+                  // Add your logic to proceed with the purchase
+                  Navigator.push(
+                    context,
                     MaterialPageRoute(builder: (context) => PaymentPage()),
-                );
-              },
-              child: Text("Buy Now"),
-            ),
+                  );
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.green),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    "Buy Now",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

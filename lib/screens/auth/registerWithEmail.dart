@@ -19,12 +19,20 @@ class _RegisterWithEmailState extends State<RegisterWithEmail> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
+  String error = '';
+
+
   void _signUp() async {
     String username = _usernameController.text;
     String email = _emailController.text;
     String password = _password.text;
 
-    context.read<AuthService>().signUpwithEmailAndPassword(email, password);
+    dynamic user = await context.read<AuthService>().signUpwithEmailAndPassword(email, password);
+    if (user is String) {
+      setState(() {
+        error = user;
+      });
+    }
   }
 
   @override
@@ -64,6 +72,8 @@ class _RegisterWithEmailState extends State<RegisterWithEmail> {
               fillColor: Colors.yellow,
               filled: true),
             ),
+            const SizedBox(height: 16.0),
+            Text(error, style: const TextStyle(color: Colors.red)),
             const SizedBox(height: 32.0),
             ElevatedButton(
               onPressed: () {
